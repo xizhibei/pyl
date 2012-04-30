@@ -10,8 +10,9 @@ Legend of version history:
  - [x]	this is a bug fix
  - [-]  this is a remove action
 
-
-
+2012.5.1
+----
+ - [+] add inotify-tools
 
 
 
