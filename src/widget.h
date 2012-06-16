@@ -9,6 +9,13 @@
 #include <QSqlError>
 #include <QDateTime>
 #include <QStandardItemModel>
+#include <QLabel>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QFileInfo>
+#include <QFileIconProvider>
 
 namespace Ui {
 class Widget;
@@ -24,6 +31,8 @@ public:
 private slots:
     void readOutput();
     void showDataBase();
+    void updateLabels();
+    void visitAddr(QString url);
 
 private:
     Ui::Widget *ui;
@@ -31,6 +40,9 @@ private:
     QProcess* dataCollector;
     QSqlDatabase db;
     QSqlQuery* query;
+
+    QHBoxLayout* hlayout[2];
+    QLabel* labels[8];
 };
 
 #endif // WIDGET_H
