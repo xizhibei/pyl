@@ -44,36 +44,38 @@ Widget::Widget(QWidget *parent) :
     connect(dataCollector,SIGNAL(readyReadStandardOutput()),this,SLOT(readOutput()));
     connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(updateLabels()));
 
-    for(int i = 0;i < 2;i++)
-        hlayout[i] = new QHBoxLayout();
-    for(int i = 0;i < 8;i++)
+    for(int i = 0;i < LAYOUT_NUM;i++)
     {
-        labels[i] = new QLabel(QString("Test"));
-        labels[i]->setFixedSize(200,200);
-        connect(labels[i],SIGNAL(linkActivated(QString)),this,SLOT(visitAddr(QString)));
+        hlayout[i] = new QHBoxLayout();
+        ui->verticalLayout->addLayout(hlayout[i]);
     }
-    hlayout[0]->addWidget(labels[0]);
-    hlayout[0]->addWidget(labels[1]);
-    hlayout[0]->addWidget(labels[2]);
-    hlayout[0]->addWidget(labels[3]);
+    for(int i = 0;i < LABEL_NUM ;i++)
+    {
+        icon_labels[i] = new QLabel(QString("Test"));
+        visit_labels[i] = new QLabel(QString("Test"));
+        del_labels[i] = new QLabel(QString("Test"));
+        //labels[i]->setFixedSize(200,200);
+        connect( visit_labels[i],SIGNAL( linkActivated(QString) ),this,SLOT( visitAddr(QString) ) );
+        connect( del_labels[i],SIGNAL( linkActivated(QString) ),this,SLOT( delDBFile(QString) ) );
 
-    hlayout[1]->addWidget(labels[4]);
-    hlayout[1]->addWidget(labels[5]);
-    hlayout[1]->addWidget(labels[6]);
-    hlayout[1]->addWidget(labels[7]);
-
-    ui->verticalLayout->addLayout(hlayout[0]);
-    ui->verticalLayout->addLayout(hlayout[1]);
+        hlayout[ i / 4 * 3 ]->addWidget(icon_labels[i]);
+        hlayout[ i / 4 * 3 + 1 ]->addWidget(visit_labels[i]);
+        hlayout[ i / 4 * 3 + 2 ]->addWidget(del_labels[i]);
+    }
 
     updateLabels();
 }
 
 Widget::~Widget()
 {
-    for(int i = 0;i < 2;i++)
+    for(int i = 0;i < LAYOUT_NUM;i++)
         delete hlayout[i];
-    for(int i = 0;i < 8;i++)
-        delete labels[i];
+    for(int i = 0;i < LABEL_NUM;i++)
+    {
+        delete icon_labels[i];
+        delete visit_labels[i];
+        delete del_labels[i];
+    }
 
     dataCollector->close();
     delete dataCollector;
@@ -163,10 +165,11 @@ void Widget::updateLabels()
     {
         qDebug() << query->value(0).toString() << "   " << query->value(1).toString();
         QFileInfo fi = QFileInfo(query->value(0).toString());
-        //QFileIconProvider fip;
+        QFileIconProvider fip;
 
-        labels[i]->setText("<a href = " +query->value(0).toString() + ">"+fi.fileName()+"</a>");
-        //labels[i]->setPixmap( fip.icon(fi).pixmap(200,200) );
+        visit_labels[i]->setText("<a href = " +query->value(0).toString() + ">"+fi.fileName()+"</a>");
+        del_labels[i]->setText("<a href = " +query->value(0).toString() + ">Delete from db</a>");
+        icon_labels[i]->setPixmap( fip.icon(fi).pixmap(200,200) );
         i++;
     }
 }
@@ -174,4 +177,11 @@ void Widget::updateLabels()
 void Widget::visitAddr(QString url)
 {
     QDesktopServices::openUrl(QUrl(url));
+}
+
+void Widget::delDBFile(QString url)
+{
+    if( query->exec(QString("delete from files where filename = '%1'").arg( url ) ) )
+        qDebug() << "Delete " << url << " success!";
+    updateLabels();
 }

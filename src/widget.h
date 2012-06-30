@@ -21,6 +21,8 @@ namespace Ui {
 class Widget;
 }
 
+#define LABEL_NUM 8
+#define LAYOUT_NUM 6
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -34,6 +36,8 @@ private slots:
     void updateLabels();
     void visitAddr(QString url);
 
+    void delDBFile(QString url);
+
 private:
     Ui::Widget *ui;
 
@@ -41,8 +45,10 @@ private:
     QSqlDatabase db;
     QSqlQuery* query;
 
-    QHBoxLayout* hlayout[2];
-    QLabel* labels[8];
+    QHBoxLayout* hlayout[LAYOUT_NUM];
+    QLabel* icon_labels[LABEL_NUM];
+    QLabel* visit_labels[LABEL_NUM];
+    QLabel* del_labels[LABEL_NUM];
 };
 
 #endif // WIDGET_H

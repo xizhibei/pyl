@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'widget.h'
 **
-** Created: Sat Jun 16 19:47:10 2012
+** Created: Sat Jun 30 13:53:17 2012
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.0)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Widget[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -35,6 +35,7 @@ static const uint qt_meta_data_Widget[] = {
       21,    7,    7,    7, 0x08,
       36,    7,    7,    7, 0x08,
       55,   51,    7,    7, 0x08,
+      74,   51,    7,    7, 0x08,
 
        0        // eod
 };
@@ -42,6 +43,7 @@ static const uint qt_meta_data_Widget[] = {
 static const char qt_meta_stringdata_Widget[] = {
     "Widget\0\0readOutput()\0showDataBase()\0"
     "updateLabels()\0url\0visitAddr(QString)\0"
+    "delDBFile(QString)\0"
 };
 
 void Widget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -54,6 +56,7 @@ void Widget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         case 1: _t->showDataBase(); break;
         case 2: _t->updateLabels(); break;
         case 3: _t->visitAddr((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 4: _t->delDBFile((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -91,9 +94,9 @@ int Widget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }
